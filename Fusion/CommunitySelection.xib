@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CommunitySelectionViewController">
+            <connections>
+                <outlet property="tableview" destination="4wO-dH-phF" id="XkS-Yc-Ly8"/>
+                <outlet property="toolbar" destination="X5r-wD-EJd" id="iiO-UP-rxk"/>
+                <outlet property="view" destination="do0-Pq-myt" id="cU8-4x-EMX"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="do0-Pq-myt">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="4wO-dH-phF">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <variation key="heightClass=regular" fixedFrame="YES">
+                        <rect key="frame" x="0.0" y="44" width="600" height="756"/>
+                    </variation>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="1wK-aS-0pN"/>
+                        <outlet property="delegate" destination="-1" id="ToY-KB-czp"/>
+                    </connections>
+                </tableView>
+                <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X5r-wD-EJd">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                    <color key="backgroundColor" red="0.14117647059999999" green="0.74509803919999995" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    <items>
+                        <barButtonItem systemItem="compose" id="NWl-0A-bgP">
+                            <color key="tintColor" red="1" green="0.99786786520000004" blue="0.96142361480000005" alpha="1" colorSpace="calibratedRGB"/>
+                            <connections>
+                                <action selector="createPost:" destination="-1" id="Uge-Wc-N7g"/>
+                            </connections>
+                        </barButtonItem>
+                    </items>
+                    <variation key="heightClass=regular" fixedFrame="YES">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                    </variation>
+                </toolbar>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+            <variation key="default">
+                <mask key="subviews">
+                    <exclude reference="4wO-dH-phF"/>
+                    <exclude reference="X5r-wD-EJd"/>
+                </mask>
+            </variation>
+            <variation key="heightClass=regular">
+                <mask key="subviews">
+                    <include reference="4wO-dH-phF"/>
+                    <include reference="X5r-wD-EJd"/>
+                </mask>
+            </variation>
+            <point key="canvasLocation" x="540" y="-85"/>
+        </view>
+    </objects>
+</document>

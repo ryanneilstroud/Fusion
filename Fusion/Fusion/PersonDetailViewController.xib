@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PersonDetailViewController">
+            <connections>
+                <outlet property="acceptButton" destination="3bX-46-LP1" id="vlW-Ut-VcV"/>
+                <outlet property="addFriendButtonOutlet" destination="sqj-f5-B0c" id="Tuo-dd-QJb"/>
+                <outlet property="churchLabel" destination="Ptn-04-hEk" id="QAx-MO-rrm"/>
+                <outlet property="communityGroupLabel" destination="aeu-p2-nCj" id="Fd5-l6-KsA"/>
+                <outlet property="declineButton" destination="tu2-jQ-Uy7" id="K5E-Nv-Bfc"/>
+                <outlet property="profileImage" destination="AWh-Za-5aM" id="6hT-sa-Oxa"/>
+                <outlet property="usernameLabel" destination="qat-as-3Jf" id="04F-az-FNq"/>
+                <outlet property="view" destination="igN-I9-7wa" id="05M-Af-a69"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="igN-I9-7wa">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="AWh-Za-5aM">
+                    <rect key="frame" x="198" y="13" width="204" height="204"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="204" id="C2V-Vs-ojE"/>
+                        <constraint firstAttribute="width" constant="204" id="EhJ-RV-qDy"/>
+                    </constraints>
+                </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="username" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qat-as-3Jf">
+                    <rect key="frame" x="38" y="295" width="491" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sqj-f5-B0c">
+                    <rect key="frame" x="0.0" y="232" width="573" height="50"/>
+                    <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    <state key="normal" title="add friend">
+                        <color key="titleColor" red="0.96862745100000003" green="0.96862745100000003" blue="0.96862745100000003" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="addFriendButton:" destination="-1" eventType="touchUpInside" id="jdX-wX-THu"/>
+                    </connections>
+                </button>
+                <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tu2-jQ-Uy7">
+                    <rect key="frame" x="300" y="232" width="300" height="50"/>
+                    <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <state key="normal" title="decline">
+                        <color key="titleColor" red="0.99607849120000003" green="0.99215692280000001" blue="0.99215692280000001" alpha="1" colorSpace="deviceRGB"/>
+                    </state>
+                    <connections>
+                        <action selector="declineRequest:" destination="-1" eventType="touchUpInside" id="npi-BG-lKO"/>
+                    </connections>
+                </button>
+                <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3bX-46-LP1">
+                    <rect key="frame" x="0.0" y="232" width="300" height="50"/>
+                    <color key="backgroundColor" red="0.30006395769999999" green="0.75686274509999996" blue="0.23231171119999999" alpha="1" colorSpace="calibratedRGB"/>
+                    <state key="normal" title="accept">
+                        <color key="titleColor" red="0.99607849120000003" green="0.99215692280000001" blue="0.99215692280000001" alpha="1" colorSpace="deviceRGB"/>
+                    </state>
+                    <connections>
+                        <action selector="acceptRequest:" destination="-1" eventType="touchUpInside" id="jtX-UM-h9e"/>
+                    </connections>
+                </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="church" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ptn-04-hEk">
+                    <rect key="frame" x="38" y="331" width="554" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="community group" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aeu-p2-nCj">
+                    <rect key="frame" x="38" y="359" width="554" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="AWh-Za-5aM" firstAttribute="top" secondItem="igN-I9-7wa" secondAttribute="top" constant="13" id="Hbx-SJ-Eyz"/>
+                <constraint firstItem="qat-as-3Jf" firstAttribute="top" secondItem="igN-I9-7wa" secondAttribute="top" constant="295" id="e9d-YH-StH"/>
+                <constraint firstAttribute="centerX" secondItem="AWh-Za-5aM" secondAttribute="centerX" id="h1l-zY-ToJ"/>
+                <constraint firstAttribute="trailing" secondItem="qat-as-3Jf" secondAttribute="trailing" constant="71" id="hES-NK-UbB"/>
+                <constraint firstItem="qat-as-3Jf" firstAttribute="leading" secondItem="igN-I9-7wa" secondAttribute="leading" constant="38" id="sMl-kc-1h4"/>
+            </constraints>
+            <point key="canvasLocation" x="533" y="382"/>
+        </view>
+    </objects>
+</document>

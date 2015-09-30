@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="eventFeedCell" rowHeight="223" id="pjE-R7-odf" customClass="CustomCell">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="223"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="pjE-R7-odf" id="rFx-tz-bgV">
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="First Class is hosting an event" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pjh-Kh-oOt">
+                        <rect key="frame" x="76" y="8" width="230" height="60"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="0ZD-F9-bsd">
+                        <rect key="frame" x="8" y="8" width="60" height="60"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="60" id="Rga-2C-iTj"/>
+                            <constraint firstAttribute="width" constant="60" id="lDP-g9-G4W"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Taco Tuesday" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Uw5-eJ-icm">
+                        <rect key="frame" x="8" y="76" width="298" height="21"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="September 10th @ 2:00pm" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ffb-F5-Q3P">
+                        <rect key="frame" x="8" y="99" width="298" height="21"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tequilla Jacks, Tsim Tsa Tsui" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2YH-Fx-Ni8">
+                        <rect key="frame" x="8" y="122" width="298" height="21"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" translatesAutoresizingMaskIntoConstraints="NO" id="07m-Lg-0zb">
+                        <rect key="frame" x="8" y="151" width="298" height="29"/>
+                        <segments>
+                            <segment title="going"/>
+                            <segment title="maybe"/>
+                            <segment title="can't go"/>
+                        </segments>
+                        <connections>
+                            <action selector="rsvpAttendance:" destination="pjE-R7-odf" eventType="valueChanged" id="B1c-st-Kzl"/>
+                        </connections>
+                    </segmentedControl>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="pjh-Kh-oOt" firstAttribute="leading" secondItem="0ZD-F9-bsd" secondAttribute="trailing" constant="8" id="AVt-v8-ymI"/>
+                    <constraint firstItem="Uw5-eJ-icm" firstAttribute="leading" secondItem="rFx-tz-bgV" secondAttribute="leadingMargin" id="C33-jI-IsP"/>
+                    <constraint firstItem="2YH-Fx-Ni8" firstAttribute="top" secondItem="ffb-F5-Q3P" secondAttribute="bottom" constant="2" id="FSl-1W-5W8"/>
+                    <constraint firstItem="07m-Lg-0zb" firstAttribute="top" secondItem="2YH-Fx-Ni8" secondAttribute="bottom" constant="8" id="FzB-Zr-NpS"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="07m-Lg-0zb" secondAttribute="trailing" constant="-27" id="GGS-yZ-bfa"/>
+                    <constraint firstAttribute="centerY" secondItem="pjh-Kh-oOt" secondAttribute="centerY" constant="73" id="Hd0-ae-VOP"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="Uw5-eJ-icm" secondAttribute="trailing" constant="-27" id="Iy0-gG-ItP"/>
+                    <constraint firstItem="0ZD-F9-bsd" firstAttribute="top" secondItem="rFx-tz-bgV" secondAttribute="topMargin" id="J5w-WG-QWQ"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="ffb-F5-Q3P" secondAttribute="trailing" constant="-27" id="JVt-Ez-kvz"/>
+                    <constraint firstItem="07m-Lg-0zb" firstAttribute="leading" secondItem="rFx-tz-bgV" secondAttribute="leadingMargin" id="NKA-Rs-dJL"/>
+                    <constraint firstItem="Uw5-eJ-icm" firstAttribute="top" secondItem="0ZD-F9-bsd" secondAttribute="bottom" constant="8" id="WC2-Tm-Cxo"/>
+                    <constraint firstItem="ffb-F5-Q3P" firstAttribute="leading" secondItem="rFx-tz-bgV" secondAttribute="leadingMargin" id="Wiv-gE-gWd"/>
+                    <constraint firstItem="2YH-Fx-Ni8" firstAttribute="leading" secondItem="rFx-tz-bgV" secondAttribute="leadingMargin" id="ayv-sX-6uj"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="pjh-Kh-oOt" secondAttribute="trailing" constant="-27" id="bKU-Wq-LkB"/>
+                    <constraint firstItem="ffb-F5-Q3P" firstAttribute="top" secondItem="rFx-tz-bgV" secondAttribute="topMargin" constant="91" id="ccU-Ca-qb0"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="2YH-Fx-Ni8" secondAttribute="trailing" constant="-27" id="dl7-LE-1E0"/>
+                    <constraint firstItem="pjh-Kh-oOt" firstAttribute="top" secondItem="rFx-tz-bgV" secondAttribute="topMargin" id="kVa-05-gIu"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="pjh-Kh-oOt" secondAttribute="trailing" constant="-27" id="lk9-HV-g41"/>
+                    <constraint firstItem="0ZD-F9-bsd" firstAttribute="leading" secondItem="rFx-tz-bgV" secondAttribute="leadingMargin" id="wYm-z0-Hzl"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="eventCreator" destination="0ZD-F9-bsd" id="ehE-MC-eE7"/>
+                <outlet property="eventDateAndTime" destination="ffb-F5-Q3P" id="uKM-VT-fbs"/>
+                <outlet property="eventHeadline" destination="Uw5-eJ-icm" id="WYi-Iy-nQY"/>
+                <outlet property="eventLocation" destination="2YH-Fx-Ni8" id="sgu-B3-rMQ"/>
+                <outlet property="eventTitle" destination="pjh-Kh-oOt" id="bOm-zZ-GNF"/>
+                <outlet property="rsvpSegmentControl" destination="07m-Lg-0zb" id="zCo-Ls-EsR"/>
+            </connections>
+            <point key="canvasLocation" x="582" y="419.5"/>
+        </tableViewCell>
+    </objects>
+</document>
