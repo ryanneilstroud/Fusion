@@ -28,7 +28,6 @@
 		D3546CFA1B9728B00056B3A7 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3546CF81B9728B00056B3A7 /* Bolts.framework */; };
 		D3546CFB1B9728B00056B3A7 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3546CF91B9728B00056B3A7 /* Parse.framework */; };
 		D3546CFE1B9837EB0056B3A7 /* PersonDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D3546CFD1B9837EB0056B3A7 /* PersonDetailViewController.m */; };
-		D3546D001B9839090056B3A7 /* PersonDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D3546CFF1B9839090056B3A7 /* PersonDetailViewController.xib */; };
 		D357AFB51B8A0E7E00D7DC95 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D357AFB41B8A0E7D00D7DC95 /* Main.storyboard */; };
 		D357AFB91B8A151000D7DC95 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D357AFB81B8A151000D7DC95 /* AudioToolbox.framework */; };
 		D357AFBB1B8A151900D7DC95 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D357AFBA1B8A151900D7DC95 /* CFNetwork.framework */; };
@@ -113,6 +112,8 @@
 		D3DC39351B7DCBED00D35981 /* bell.png in Resources */ = {isa = PBXBuildFile; fileRef = D3DC39341B7DCBED00D35981 /* bell.png */; };
 		D3DC39381B7DCD3E00D35981 /* users.png in Resources */ = {isa = PBXBuildFile; fileRef = D3DC39371B7DCD3E00D35981 /* users.png */; };
 		D3DC393A1B7DCD4B00D35981 /* house.png in Resources */ = {isa = PBXBuildFile; fileRef = D3DC39391B7DCD4B00D35981 /* house.png */; };
+		D3ECE4501BBDA75E002117F1 /* PersonDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D3ECE44F1BBDA75E002117F1 /* PersonDetailViewController.xib */; settings = {ASSET_TAGS = (); }; };
+		D3F098471BBD894900846E5C /* FriendsWallView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D3F098461BBD894900846E5C /* FriendsWallView.xib */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -155,7 +156,6 @@
 		D3546CF91B9728B00056B3A7 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 		D3546CFC1B9837A70056B3A7 /* PersonDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PersonDetailViewController.h; path = ../PersonDetailViewController.h; sourceTree = "<group>"; };
 		D3546CFD1B9837EB0056B3A7 /* PersonDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersonDetailViewController.m; sourceTree = "<group>"; };
-		D3546CFF1B9839090056B3A7 /* PersonDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PersonDetailViewController.xib; sourceTree = "<group>"; };
 		D357AFB41B8A0E7D00D7DC95 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		D357AFB81B8A151000D7DC95 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		D357AFBA1B8A151900D7DC95 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -262,6 +262,8 @@
 		D3DC39341B7DCBED00D35981 /* bell.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bell.png; sourceTree = "<group>"; };
 		D3DC39371B7DCD3E00D35981 /* users.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = users.png; sourceTree = "<group>"; };
 		D3DC39391B7DCD4B00D35981 /* house.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = house.png; sourceTree = "<group>"; };
+		D3ECE44F1BBDA75E002117F1 /* PersonDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PersonDetailViewController.xib; sourceTree = "<group>"; };
+		D3F098461BBD894900846E5C /* FriendsWallView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FriendsWallView.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -370,9 +372,10 @@
 		D32CDAD31B9987A7008EF1ED /* PersonDetailViewController */ = {
 			isa = PBXGroup;
 			children = (
+				D3ECE44F1BBDA75E002117F1 /* PersonDetailViewController.xib */,
 				D3546CFC1B9837A70056B3A7 /* PersonDetailViewController.h */,
 				D3546CFD1B9837EB0056B3A7 /* PersonDetailViewController.m */,
-				D3546CFF1B9839090056B3A7 /* PersonDetailViewController.xib */,
+				D3F098461BBD894900846E5C /* FriendsWallView.xib */,
 			);
 			name = PersonDetailViewController;
 			sourceTree = "<group>";
@@ -704,7 +707,7 @@
 		D3DC38FF1B7DBF7500D35981 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0640;
+				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = "Ryan Stroud";
 				TargetAttributes = {
 					D3DC39061B7DBF7500D35981 = {
@@ -747,6 +750,7 @@
 				D3A306721B9E82FF009952BA /* MyCustomCell.xib in Resources */,
 				D3299BA71B8CF306001048F5 /* calendar_16.png in Resources */,
 				D3B77A691B8F976A004CE6A3 /* Roboto-Black.ttf in Resources */,
+				D3F098471BBD894900846E5C /* FriendsWallView.xib in Resources */,
 				D32C79F91BAD3D900011BBE8 /* CommentCell.xib in Resources */,
 				D3B77AA01B8FE2A3004CE6A3 /* firstclass_test2.jpg in Resources */,
 				D3B77A7B1B8FA38F004CE6A3 /* rebekah_test.jpg in Resources */,
@@ -754,7 +758,6 @@
 				D3DC393A1B7DCD4B00D35981 /* house.png in Resources */,
 				D3B77A6A1B8F976A004CE6A3 /* Roboto-BlackItalic.ttf in Resources */,
 				D3B77A3F1B8EFC7A004CE6A3 /* FriendsPostSelection.xib in Resources */,
-				D3546D001B9839090056B3A7 /* PersonDetailViewController.xib in Resources */,
 				D3B77A9C1B8FD901004CE6A3 /* maps3.jpg in Resources */,
 				D3B77A4E1B8F478A004CE6A3 /* CommunityGroupCell.xib in Resources */,
 				D37BBA7C1B988F3100FFE085 /* plus-square_969696_128.png in Resources */,
@@ -788,6 +791,7 @@
 				D358767B1BB45C6100B10241 /* pixel.png in Resources */,
 				D3B77A6E1B8F976A004CE6A3 /* Roboto-Light.ttf in Resources */,
 				D3B77A911B8FC6C8004CE6A3 /* CommunitySelection.xib in Resources */,
+				D3ECE4501BBDA75E002117F1 /* PersonDetailViewController.xib in Resources */,
 				D3B37FE81BA48BD000C5AE65 /* EventSelectionView.xib in Resources */,
 				D3C2B11B1BB2ABC800A6565D /* CommunityEventsCell.xib in Resources */,
 				D37BBA7A1B985C6A00FFE085 /* lock_ffffff_32.png in Resources */,
@@ -875,7 +879,7 @@
 		D3DC39281B7DBF7500D35981 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -893,6 +897,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -918,7 +923,7 @@
 		D3DC39291B7DBF7500D35981 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -965,6 +970,7 @@
 				);
 				INFOPLIST_FILE = Fusion/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.ryanneilstroud.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -982,6 +988,7 @@
 				);
 				INFOPLIST_FILE = Fusion/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.ryanneilstroud.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -1000,6 +1007,7 @@
 				);
 				INFOPLIST_FILE = FusionTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.ryanneilstroud.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Fusion.app/Fusion";
 			};
@@ -1015,6 +1023,7 @@
 				);
 				INFOPLIST_FILE = FusionTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.ryanneilstroud.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Fusion.app/Fusion";
 			};

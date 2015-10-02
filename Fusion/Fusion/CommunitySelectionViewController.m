@@ -11,6 +11,7 @@
 #import "SearchCustomCell.h"
 #import "NewPublishArticleViewController.h"
 #import "CommentCell.h"
+#import "GroupDetailViewController.h"
 
 @interface CommunitySelectionViewController ()
 @property NSInteger segmentControlIndex;
@@ -23,6 +24,8 @@
 
 @property NSObject *myCell;
 
+@property (strong, nonatomic) NSString *nameOfGroup;
+
 @property (strong, nonatomic) NSMutableArray *names;
 @property (strong, nonatomic) NSMutableArray *comments;
 @property (strong, nonatomic) NSMutableArray *profilePics;
@@ -32,7 +35,7 @@
 @property (strong, nonatomic) NSMutableArray *location;
 @property (strong, nonatomic) NSMutableArray *creatorImages;
 @property (strong, nonatomic) NSMutableArray *creators;
-@property (strong, nonatomic) NSMutableArray *objectId;
+//@property (strong, nonatomic) NSMutableArray *objectId;
 
 @property (strong, nonatomic) UIImageView *navBarHairlineImageView;
 
@@ -50,6 +53,8 @@
 //    self.navigationController.navigationBar.clipsToBounds = YES;
     
     self.rowHeight = 75;
+    
+    self.nameOfGroup = @"";
     
     self.eventName = [[NSMutableArray alloc] init];
     self.dateAndTime = [[NSMutableArray alloc] init];
@@ -115,6 +120,7 @@
     [query getObjectInBackgroundWithId:self.incomingGroupId block:^(PFObject *group, NSError *error){
         self.groupsName.text = group[@"name"];
         self.navigationItem.title = group[@"name"];
+        self.nameOfGroup = group[@"name"];
                 
         PFFile *file = group[@"profilePic"];
         [file getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
@@ -133,7 +139,10 @@
                 v.layer.masksToBounds = YES;
                 v.layer.cornerRadius = 20;
                 
-                UIBarButtonItem *flipButton = [[UIBarButtonItem alloc] initWithCustomView:v];
+//                UIBarButtonItem *flipButton = [[UIBarButtonItem alloc] initWithCustomView:v];
+//                [flipButton setTarget:self.view];
+//                [flipButton setAction:@selector(viewGroupDetails)];
+                UIBarButtonItem *flipButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemOrganize target:self action:@selector(viewGroupDetails)];
                 self.navigationItem.rightBarButtonItem = flipButton;
                 
                 [self.navigationController.navigationBar pushNavigationItem:self.navigationItem animated:NO];
@@ -146,6 +155,14 @@
             }
         }];
     }];
+}
+
+-(void)viewGroupDetails {
+    GroupDetailViewController *controller = [[GroupDetailViewController alloc] initWithNibName:@"GroupDetailView" bundle:nil];
+    NSLog(@"self.incomingGroupId = %@", self.incomingGroupId);
+    controller.incomingGroupId = self.incomingGroupId;
+    controller.name = self.nameOfGroup;
+    [self.navigationController pushViewController:controller animated:YES];
 }
 
 -(IBAction)segmentControl:(UISegmentedControl*)segmentControl {
@@ -389,20 +406,62 @@
     
     NSIndexPath *indexPath = [self.tableview indexPathForRowAtPoint:p];
     
-    if(gestureRecognizer.state == UIGestureRecognizerStateBegan) {
-        UIActionSheet *popup = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"remove from group" otherButtonTitles:
-                                nil];
-        popup.tag = indexPath.row;
-        [popup showInView:[UIApplication sharedApplication].keyWindow];
+    if (self.segmentControlIndex == 2) {
+        if(gestureRecognizer.state == UIGestureRecognizerStateBegan) {
+            UIAlertController *actionSheet = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+            
+            [actionSheet addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+                
+                // Cancel button tappped.
+                [self dismissViewControllerAnimated:YES completion:^{
+                }];
+            }]];
+            
+            [actionSheet addAction:[UIAlertAction actionWithTitle:@"Delete" style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
+                
+                // Delete button tappped.
+                [self dismissViewControllerAnimated:YES completion:^{
+                    PFQuery *query = [PFQuery queryWithClassName:@"CommunityGroup"];
+                    [query getObjectInBackgroundWithId:self.incomingGroupId block:^(PFObject *community, NSError *error){
+                        if (!error) {
+                            
+                            if (![[self.particpantsIds objectAtIndex:indexPath.row] isEqualToString:[community[@"admin"] objectId]]) {
+                                NSString *str = [self.particpantsIds objectAtIndex:indexPath.row];
+                                [community removeObjectsInArray:@[str] forKey:@"participants"];
+                                [community saveInBackgroundWithBlock:^(BOOL success, NSError *error){
+                                    if (success) {
+                                        [self loadParticipants];
+                                    }
+                                }];
+                            } else {
+                                [self createAlert:@"the admin cannot be removed"];
+                            }
+                        }
+                    }];
+                }];
+            }]];
+            
+            [self presentViewController:actionSheet animated:YES completion:nil];
+        }
+    } else if (self.segmentControlIndex == 0) {
+        if(gestureRecognizer.state == UIGestureRecognizerStateBegan) {
+            
+                            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"edit message"
+                                                                            message:nil
+                                                                           delegate:self
+                                                                  cancelButtonTitle:@"cancel"
+                                                                  otherButtonTitles:@"save", nil];
+                            alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+                            [alert show];
+            
+                            
+        }
     }
     
-//    if (indexPath == nil) {
-//        NSLog(@"long press on table view but not on a row");
-//    } else if (gestureRecognizer.state == UIGestureRecognizerStateBegan) {
-//        NSLog(@"long press on table view at row ");
-//    } else {
-//        NSLog(@"gestureRecognizer.state");
-//    }
+//        UIActionSheet *popup = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"remove from group" otherButtonTitles:
+//                                nil];
+//        popup.tag = indexPath.row;
+//        [popup showInView:[UIApplication sharedApplication].keyWindow];
 }
 
 - (void)deleteParticipant:(NSInteger )index {

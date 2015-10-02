@@ -15,7 +15,7 @@
 @property (strong, nonatomic) IBOutlet UIButton *joinButtonOutlet;
 
 @property (strong, nonatomic) NSString *name;
-@property (strong, nonatomic) NSString *church;
+//@property (strong, nonatomic) NSString *church;
 @property (strong, nonatomic) NSString *incomingGroupId;
 @property (strong, nonatomic) IBOutlet UILabel *groupName;
 @property (strong, nonatomic) IBOutlet UILabel *churchName;

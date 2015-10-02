@@ -17,8 +17,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    NSLog(@"hellojkdl");
-    
     [self.eventNameTextField becomeFirstResponder];
     
     self.eventNameTextField.text = self.incomingEventName;
@@ -26,6 +24,12 @@
     self.eventDateTimeTextField.text = self.incomingDateAndTime;
     
     self.navigationItem.title = @"edit";
+    
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    
+    [self.deleteGroupButtonOutlet setTranslatesAutoresizingMaskIntoConstraints:YES];
+    
+    self.deleteGroupButtonOutlet.frame = CGRectMake(0, self.deleteGroupButtonOutlet.frame.origin.y, screenRect.size.width, self.deleteGroupButtonOutlet.frame.size.height);
     
     UIBarButtonItem *rightButton = [[UIBarButtonItem alloc] initWithTitle:@"save" style:UIBarButtonItemStylePlain target:self action:@selector(saveChanges)];
     self.navigationItem.rightBarButtonItem = rightButton;
@@ -67,12 +71,35 @@
 }
 
 -(void)createAlert:(NSString *)_message :(NSString *)title {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
-                                                    message:_message
+}
+
+- (IBAction)deleteGroup:(id)sender {
+    
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Warning!"
+                                                    message:@"you cannot undo this."
                                                    delegate:self
-                                          cancelButtonTitle:@"Okay"
-                                          otherButtonTitles:nil];
+                                          cancelButtonTitle:@"cancel"
+                                          otherButtonTitles:@"delete", nil];
     [alert show];
 }
 
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 0) {
+        NSLog(@"cancel");
+    } else {
+        PFQuery *query = [PFQuery queryWithClassName:@"PublicEvent"];
+        [query getObjectInBackgroundWithId:self.incomingEventId block:^(PFObject *event, NSError *error){
+            if (!error) {
+                
+                [event deleteInBackground];
+                [event saveInBackground];
+                
+                NSString * storyboardName = @"Main";
+                UIStoryboard *storyboard = [UIStoryboard storyboardWithName:storyboardName bundle: nil];
+                UIViewController * vc = [storyboard instantiateViewControllerWithIdentifier:@"tabBarController"];
+                [self presentViewController:vc animated:YES completion:nil];
+            }
+        }];
+    }
+}
 @end

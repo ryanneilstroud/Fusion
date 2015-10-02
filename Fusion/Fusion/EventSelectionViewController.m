@@ -73,9 +73,9 @@
             }
             
             if ([event[@"going"] count] == 1) {
-                self.numberOfPeopleGoingLabel.text = [NSString stringWithFormat:@"%u person is going", [event[@"going"] count]];
+                self.numberOfPeopleGoingLabel.text = [NSString stringWithFormat:@"%lu person is going", [event[@"going"] count]];
             } else {
-                self.numberOfPeopleGoingLabel.text = [NSString stringWithFormat:@"%u people are going", [event[@"going"] count]];
+                self.numberOfPeopleGoingLabel.text = [NSString stringWithFormat:@"%lu people are going", [event[@"going"] count]];
             }
             
             if (event[@"creator"] == [PFUser currentUser]) {
@@ -122,9 +122,9 @@
             [event[rsvp] addObject:[[PFUser currentUser] objectId]];
         
             if ([event[@"going"] count] == 1) {
-                self.numberOfPeopleGoingLabel.text = [NSString stringWithFormat:@"%u person is going", [event[@"going"] count]];
+                self.numberOfPeopleGoingLabel.text = [NSString stringWithFormat:@"%lu person is going", [event[@"going"] count]];
             } else {
-                self.numberOfPeopleGoingLabel.text = [NSString stringWithFormat:@"%u people are going", [event[@"going"] count]];
+                self.numberOfPeopleGoingLabel.text = [NSString stringWithFormat:@"%lu people are going", [event[@"going"] count]];
             }
             [event saveInBackgroundWithBlock:^(BOOL success, NSError *error){
                 if (success) {

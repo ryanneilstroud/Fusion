@@ -7,6 +7,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="EditEventViewController">
             <connections>
+                <outlet property="deleteGroupButtonOutlet" destination="LGN-0T-pp2" id="iE9-5y-hjV"/>
                 <outlet property="eventDateTimeTextField" destination="BGw-Y3-YtL" id="m5d-jt-3DG"/>
                 <outlet property="eventLocationTextField" destination="dWn-l3-gCJ" id="WLL-KC-zqa"/>
                 <outlet property="eventNameTextField" destination="Wlv-nv-IgE" id="Jjz-s7-eVG"/>
@@ -33,6 +34,16 @@
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits"/>
                 </textField>
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LGN-0T-pp2">
+                    <rect key="frame" x="0.0" y="321" width="328" height="50"/>
+                    <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <state key="normal" title="delete">
+                        <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                    <connections>
+                        <action selector="deleteGroup:" destination="-1" eventType="touchUpInside" id="0Zz-Cm-hoh"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
         </view>

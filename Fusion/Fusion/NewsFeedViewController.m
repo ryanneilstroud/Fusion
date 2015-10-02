@@ -26,7 +26,7 @@
 @property (strong, nonatomic) NSMutableArray *creators;
 @property (strong, nonatomic) NSMutableArray *rsvpArray;
 
-@property (strong, nonatomic) NSMutableArray *objectId;
+@property (strong, nonatomic) NSMutableArray *messagesObjectId;
 @property (strong, nonatomic) NSMutableArray *eventIds;
 
 @property (strong, nonatomic) UIRefreshControl *refreshControl;
@@ -87,13 +87,13 @@
     [self.refreshControl addTarget:self action:@selector(refreshTable) forControlEvents:UIControlEventValueChanged];
 
     
-    self.messages = [[NSMutableArray alloc] init];
-    self.images = [[NSMutableArray alloc] init];
-    self.names = [[NSMutableArray alloc] init];
-    self.sharedImages = [[NSMutableDictionary alloc] init];
-    self.timestamps = [[NSMutableArray alloc] init];
-    self.objectId = [[NSMutableArray alloc] init];
-    self.favoritedArray = [[NSMutableArray alloc] init];
+//    self.messages = [[NSMutableArray alloc] init];
+//    self.images = [[NSMutableArray alloc] init];
+//    self.names = [[NSMutableArray alloc] init];
+//    self.sharedImages = [[NSMutableDictionary alloc] init];
+//    self.timestamps = [[NSMutableArray alloc] init];
+    self.messagesObjectId = [[NSMutableArray alloc] init];
+//    self.favoritedArray = [[NSMutableArray alloc] init];
     
     self.eventName = [[NSMutableArray alloc] init];
     self.dateAndTime = [[NSMutableArray alloc] init];
@@ -250,78 +250,38 @@
     [self.spinner startAnimating];
     [self resetArrays];
     
-    __block NSArray *friendsArr = [[NSArray alloc] init];
-    
     PFQuery *userQuery = [PFQuery queryWithClassName:@"FriendsList"];
     [userQuery whereKey:@"owner" equalTo:[PFUser currentUser]];
     [userQuery getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error){
         if (!error) {
+            
+            NSLog(@"friendsList = %@", object[@"friends"]);
             if ([object[@"friends"] count] < 1) {
                 [self handleEmptyTableView:YES];
             } else {
                 [self handleEmptyTableView:NO];
-                friendsArr = [[NSArray alloc] initWithArray:object[@"friends"]];
-                PFQuery *messages = [PFQuery queryWithClassName:@"NewsFeedMessage"];
-                [messages orderByDescending:@"createdAt"];
-                [messages findObjectsInBackgroundWithBlock:^(NSArray *messagesArr, NSError *error){
+                PFQuery *messagesQuery = [PFQuery queryWithClassName:@"NewsFeedMessage"];
+                [messagesQuery orderByDescending:@"createdAt"];
+                [messagesQuery findObjectsInBackgroundWithBlock:^(NSArray *array, NSError *error){
                     if (!error) {
                         
-                        for (int i = 0; i < messagesArr.count; i++) {
-                            
-                            [self.objectId addObject:[messagesArr[i] objectId]];
-                            
-                            PFQuery *userQuery = [PFUser query];
-                            [userQuery getObjectInBackgroundWithId:[messagesArr[i][@"creator"] objectId] block:^(PFObject *user, NSError *error){
-                                
-                                PFFile *file = user[@"profilePic"];
-                                [file getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
-                                    if (!error) {
-                                        
-                                        if ([friendsArr containsObject:[messagesArr[i][@"creator"] objectId]]) {
-                                            if (![self.messages containsObject:messagesArr[i][@"message"]]) {
-                                                UIImage *currentUserImage = [UIImage imageWithData:data];
-                                                
-                                                [self.messages addObject:messagesArr[i][@"message"]];
-                                                [self.names addObject:user[@"fullName"]];
-                                                [self.images addObject:currentUserImage];
-                                                [self.timestamps addObject:[messagesArr[i] createdAt]];
-                                                [self.objectId addObject:[messagesArr[i] objectId]];
-                                                
-                                                if ([messagesArr[i][@"favorited"] containsObject:[[PFUser currentUser] objectId]]) {
-                                                    [self.favoritedArray addObject:@"1"];
-                                                } else {
-                                                    [self.favoritedArray addObject:@"0"];
-                                                    
-                                                }
-                                                
-                                                PFFile *file = messagesArr[i][@"photo"];
-                                                [file getDataInBackgroundWithBlock:^(NSData *moreData, NSError *error) {
-                                                    if (!error) {
-                                                        UIImage *image = [UIImage imageWithData:moreData];
-                                                        [self.sharedImages setObject:image forKey:[NSString stringWithFormat:@"%d", i]];
-                                                        
-                                                    } else {
-                                                        NSLog(@"error: %@", error);
-                                                    }
-                                                }];
-                                                
-                                                if ([self.messages count] > 0) {
-                                                    [self.tableview reloadData];
-                                                    [self handleEmptyTableView:NO];
-                                                }
-                                            }
-                                            
-                                        } else {
-                                            if ([self.messages count] < 1) {
-                                                [self handleEmptyTableView:YES];
-                                            }
-                                        }
-                                        
-                                    }
-                                }];
-                            }];
-                        }
                         
+                        for (int i = 0; i < array.count; i++) {
+                            
+                            NSLog(@"array = %@", array);
+                            
+                            if ([object[@"friends"] containsObject:[array[i][@"creator"] objectId]]) {
+                                if (![self.messagesObjectId containsObject:[array[i] objectId]]) {
+                                    [self.messagesObjectId addObject:[array[i] objectId]];
+                                    
+                                    if (self.messagesObjectId.count > 0) {
+                                        [self.tableview reloadData];
+                                    } else {
+                                        [self handleEmptyTableView:NO];
+                                    }
+                                }
+                            }
+                        }
                     }
                 }];
             }
@@ -331,13 +291,98 @@
     }];
 }
 
+//-(void)getFriendsMessages {
+//    [self.spinner startAnimating];
+//    [self resetArrays];
+//    
+//    __block NSArray *friendsArr = [[NSArray alloc] init];
+//    
+//    PFQuery *userQuery = [PFQuery queryWithClassName:@"FriendsList"];
+//    [userQuery whereKey:@"owner" equalTo:[PFUser currentUser]];
+//    [userQuery getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error){
+//        if (!error) {
+//            if ([object[@"friends"] count] < 1) {
+//                [self handleEmptyTableView:YES];
+//            } else {
+//                [self handleEmptyTableView:NO];
+//                friendsArr = [[NSArray alloc] initWithArray:object[@"friends"]];
+//                PFQuery *messages = [PFQuery queryWithClassName:@"NewsFeedMessage"];
+//                [messages orderByDescending:@"createdAt"];
+//                [messages findObjectsInBackgroundWithBlock:^(NSArray *messagesArr, NSError *error){
+//                    if (!error) {
+//                        
+//                        for (int i = 0; i < messagesArr.count; i++) {
+//                            
+//                            [self.objectId addObject:[messagesArr[i] objectId]];
+//
+//                            PFQuery *userQuery = [PFUser query];
+//                            [userQuery getObjectInBackgroundWithId:[messagesArr[i][@"creator"] objectId] block:^(PFObject *user, NSError *error){
+//                                
+//                                PFFile *file = user[@"profilePic"];
+//                                [file getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
+//                                    if (!error) {
+//                                        
+//                                        if ([friendsArr containsObject:[messagesArr[i][@"creator"] objectId]]) {
+//                                            if (![self.messages containsObject:messagesArr[i][@"message"]]) {
+//                                                UIImage *currentUserImage = [UIImage imageWithData:data];
+//                                                
+//                                                [self.messages addObject:messagesArr[i][@"message"]];
+//                                                [self.names addObject:user[@"fullName"]];
+//                                                [self.images addObject:currentUserImage];
+//                                                [self.timestamps addObject:[messagesArr[i] createdAt]];
+//                                                [self.objectId addObject:[messagesArr[i] objectId]];
+//                                                
+//                                                if ([messagesArr[i][@"favorited"] containsObject:[[PFUser currentUser] objectId]]) {
+//                                                    [self.favoritedArray addObject:@"1"];
+//                                                } else {
+//                                                    [self.favoritedArray addObject:@"0"];
+//                                                    
+//                                                }
+//                                                
+//                                                PFFile *file = messagesArr[i][@"photo"];
+//                                                [file getDataInBackgroundWithBlock:^(NSData *moreData, NSError *error) {
+//                                                    if (!error) {
+//                                                        UIImage *image = [UIImage imageWithData:moreData];
+//                                                        [self.sharedImages setObject:image forKey:[NSString stringWithFormat:@"%d", i]];
+//                                                        
+//                                                    } else {
+//                                                        NSLog(@"error: %@", error);
+//                                                    }
+//                                                }];
+//                                                
+//                                                if ([self.messages count] > 0) {
+//                                                    [self.tableview reloadData];
+//                                                    [self handleEmptyTableView:NO];
+//                                                }
+//                                            }
+//                                            
+//                                        } else {
+//                                            if ([self.messages count] < 1) {
+//                                                [self handleEmptyTableView:YES];
+//                                            }
+//                                        }
+//                                        
+//                                    }
+//                                }];
+//                            }];
+//                        }
+//                        
+//                    }
+//                }];
+//            }
+//        } else {
+//            [self handleEmptyTableView:YES];
+//        }
+//    }];
+//}
+
 -(void)resetArrays {
-    [self.messages removeAllObjects];
-    [self.images removeAllObjects];
-    [self.names removeAllObjects];
-    [self.sharedImages removeAllObjects];
-    [self.timestamps removeAllObjects];
-    
+//    [self.messages removeAllObjects];
+//    [self.images removeAllObjects];
+//    [self.names removeAllObjects];
+//    [self.sharedImages removeAllObjects];
+//    [self.timestamps removeAllObjects];
+//    
     [self.creators removeAllObjects];
     [self.creatorImages removeAllObjects];
     [self.eventName removeAllObjects];
@@ -346,8 +391,8 @@
     [self.eventIds removeAllObjects];
     [self.rsvpArray removeAllObjects];
     
-    [self.objectId removeAllObjects];
-    [self.favoritedArray removeAllObjects];
+    [self.messagesObjectId removeAllObjects];
+//    [self.favoritedArray removeAllObjects];
     
 }
 
@@ -372,7 +417,8 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if(segmentedControl.selectedSegmentIndex == 0) {
-        return [self.names count];
+//        return [self.names count];
+        return [self.messagesObjectId count];
     } else {
         return [self.eventName count];
     }
@@ -383,7 +429,7 @@
         if ([self.sharedImages objectForKey:[NSString stringWithFormat:@"%ld", (long)indexPath.row]] != nil) {
             return rowHeight + 400;
         } else {
-            return rowHeight + 110;
+            return rowHeight + 30;
         }
     } else {
         return 200;
@@ -395,19 +441,22 @@
     NSString* nibName;
     
     if(segmentedControl.selectedSegmentIndex == 0) {
-        if ([self.sharedImages objectForKey:[NSString stringWithFormat:@"%ld", (long)indexPath.row]] != nil) {
-            segmentedCell = @"newsFeedCellWithImage";
-            nibName = @"MyCustomCellWithImage";
-        } else {
-            segmentedCell = @"newsFeedCell";
-            nibName = @"MyCustomCell";
-        }
-        NSAttributedString *atrStr = [[NSAttributedString alloc] initWithString:[self.messages objectAtIndex:indexPath.row]];
-        if (![[self.messages objectAtIndex:indexPath.row] isEqualToString:@""]) {
-            rowHeight = [self textViewHeightForAttributedText:atrStr andWidth:self.view.frame.size.width - 200];
-        } else {
-            rowHeight = 100;
-        }
+        segmentedCell = @"newsFeedCell";
+        nibName = @"MyCustomCell";
+        rowHeight = 100;
+//        if ([self.sharedImages objectForKey:[NSString stringWithFormat:@"%ld", (long)indexPath.row]] != nil) {
+//            segmentedCell = @"newsFeedCellWithImage";
+//            nibName = @"MyCustomCellWithImage";
+//        } else {
+//            segmentedCell = @"newsFeedCell";
+//            nibName = @"MyCustomCell";
+//        }
+//        NSAttributedString *atrStr = [[NSAttributedString alloc] initWithString:[self.messages objectAtIndex:indexPath.row]];
+//        if (![[self.messages objectAtIndex:indexPath.row] isEqualToString:@""]) {
+//            rowHeight = [self textViewHeightForAttributedText:atrStr andWidth:self.view.frame.size.width - 200];
+//        } else {
+//            rowHeight = 100;
+//        }
         
     } else if(segmentedControl.selectedSegmentIndex == 1) {
         segmentedCell = @"eventFeedCell";
@@ -429,22 +478,23 @@
     
     if(segmentedControl.selectedSegmentIndex == 0) {
         
-        if ([self.sharedImages objectForKey:[NSString stringWithFormat:@"%ld", (long)indexPath.row]] != nil) {
-            [cell refreshCellWithImageInfo:[self.names objectAtIndex:indexPath.row]
-                               captionText:[self.messages objectAtIndex:indexPath.row]
-                              imagePicture:[self.images objectAtIndex:indexPath.row]
-                                          :[self.sharedImages objectForKey:[NSString stringWithFormat:@"%ld", (long)indexPath.row]]
-                                          :[self.timestamps objectAtIndex:indexPath.row]
-                                          :[self.objectId objectAtIndex:indexPath.row]
-                                          :[self.favoritedArray objectAtIndex:indexPath.row]];
-        } else {
-            [cell refreshCellWithInfo:[self.names objectAtIndex:indexPath.row]
-                          captionText:[self.messages objectAtIndex:indexPath.row]
-                         imagePicture:[self.images objectAtIndex:indexPath.row]
-                                     :[self.timestamps objectAtIndex:indexPath.row]
-                                     :[self.objectId objectAtIndex:indexPath.row]
-                                     :[self.favoritedArray objectAtIndex:indexPath.row]];
-        }
+        [cell refreshCellWithMessage:[self.messagesObjectId objectAtIndex:indexPath.row]];
+//        if ([self.sharedImages objectForKey:[NSString stringWithFormat:@"%ld", (long)indexPath.row]] != nil) {
+//            [cell refreshCellWithImageInfo:[self.names objectAtIndex:indexPath.row]
+//                               captionText:[self.messages objectAtIndex:indexPath.row]
+//                              imagePicture:[self.images objectAtIndex:indexPath.row]
+//                                          :[self.sharedImages objectForKey:[NSString stringWithFormat:@"%ld", (long)indexPath.row]]
+//                                          :[self.timestamps objectAtIndex:indexPath.row]
+//                                          :[self.objectId objectAtIndex:indexPath.row]
+//                                          :[self.favoritedArray objectAtIndex:indexPath.row]];
+//        } else {
+//            [cell refreshCellWithInfo:[self.names objectAtIndex:indexPath.row]
+//                          captionText:[self.messages objectAtIndex:indexPath.row]
+//                         imagePicture:[self.images objectAtIndex:indexPath.row]
+//                                     :[self.timestamps objectAtIndex:indexPath.row]
+//                                     :[self.objectId objectAtIndex:indexPath.row]
+//                                     :[self.favoritedArray objectAtIndex:indexPath.row]];
+//        }
 
     } else if(segmentedControl.selectedSegmentIndex == 1) {
         [cell refreshCellWithEventInfo:[self.creators objectAtIndex:indexPath.row]
@@ -463,12 +513,13 @@
 
     if (segmentedControl.selectedSegmentIndex == 0) {
         
+        NSLog(@"id = %@", [self.messagesObjectId objectAtIndex:indexPath.row]);
         FriendsPostSelectionViewController *vc = [[FriendsPostSelectionViewController alloc] initWithNibName:@"FriendsPostSelection" bundle:nil];
-        vc.incomingPostId = [self.objectId objectAtIndex:indexPath.row];
-        vc.incomingName = [self.names objectAtIndex:indexPath.row];
-        vc.incomingMessage = [self.messages objectAtIndex:indexPath.row];
-        vc.incomingProfilePic = [self.images objectAtIndex:indexPath.row];
-        vc.incomingSharedImages = [self.sharedImages objectForKey:[NSString stringWithFormat:@"%ld", (long)indexPath.row]];
+        vc.incomingPostId = [self.messagesObjectId objectAtIndex:indexPath.row];
+//        vc.incomingName = [self.names objectAtIndex:indexPath.row];
+//        vc.incomingMessage = [self.messages objectAtIndex:indexPath.row];
+//        vc.incomingProfilePic = [self.images objectAtIndex:indexPath.row];
+//        vc.incomingSharedImages = [self.sharedImages objectForKey:[NSString stringWithFormat:@"%ld", (long)indexPath.row]];
         [self.navigationController pushViewController:vc animated:YES];
     } else {
         EventSelectionViewController *vc = [[EventSelectionViewController alloc] initWithNibName:@"EventSelectionView" bundle:nil];

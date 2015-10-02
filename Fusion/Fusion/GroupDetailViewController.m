@@ -18,7 +18,9 @@
 @synthesize incomingGroupId;
 
 - (void)viewDidLoad {
-    NSLog(@"Hello");
+    self.COMMUNTIY_GROUP = @"CommunityGroup";
+    
+    NSLog(@"Hello %@", self.name);
     
     CGRect screenRect = [[UIScreen mainScreen] bounds];
 
@@ -30,8 +32,6 @@
 
     self.groupName.font = [UIFont fontWithName:@"Roboto-Light" size:24.0f];
     self.churchName.font = [UIFont fontWithName:@"Roboto-Light" size:18.0f];
-    
-    self.COMMUNTIY_GROUP = @"CommunityGroup";
     
 //    self.navigationItem.title = self.name;
     
@@ -72,9 +72,8 @@
             if ([community[@"participants"] containsObject:[[PFUser currentUser] objectId]]) {
                 if ([[[PFUser currentUser] objectId] isEqualToString:[community[@"admin"] objectId]]) {
                     NSLog(@"admin");
-                    [self.joinButtonOutlet setTitle:@"admin" forState:UIControlStateNormal];
-                    [self.joinButtonOutlet setEnabled:NO];
-                    self.joinButtonOutlet.backgroundColor = [UIColor colorWithRed:0 green:0.471 blue:1 alpha:1];
+                    [self.joinButtonOutlet setTitle:@"delete" forState:UIControlStateNormal];
+                    self.joinButtonOutlet.backgroundColor = [UIColor redColor];
                 } else {
                     [self.joinButtonOutlet setTitle:@"leave community" forState:UIControlStateNormal];
                     self.joinButtonOutlet.backgroundColor = [UIColor redColor];
@@ -100,11 +99,30 @@
     [thisGroup getObjectInBackgroundWithId:incomingGroupId block:^(PFObject *community, NSError *error){
         if (!error) {
             
-            if ([community[@"participants"] containsObject:[[PFUser currentUser] objectId]]) {
+            if (community[@"admin"] == [PFUser currentUser]) {
+                
+                PFQuery *thisGroup = [PFQuery queryWithClassName:self.COMMUNTIY_GROUP];
+                [thisGroup getObjectInBackgroundWithId:incomingGroupId block:^(PFObject *community, NSError *error){
+                    if (!error) {
+                        [community deleteInBackground];
+                        [community saveInBackground];
+                        NSString * storyboardName = @"Main";
+                        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:storyboardName bundle: nil];
+                        UIViewController * vc = [storyboard instantiateViewControllerWithIdentifier:@"tabBarController"];
+                        [self presentViewController:vc animated:YES completion:nil];
+                    }
+                }];
+                
+            } else if ([community[@"participants"] containsObject:[[PFUser currentUser] objectId]]) {
                 [self.joinButtonOutlet setTitle:@"join" forState:UIControlStateNormal];
                 self.joinButtonOutlet.backgroundColor = [UIColor colorWithRed:0 green:0.471 blue:1 alpha:1];
                 
                 [community[@"participants"] removeObject:[[PFUser currentUser] objectId]];
+                
+                NSString * storyboardName = @"Main";
+                UIStoryboard *storyboard = [UIStoryboard storyboardWithName:storyboardName bundle: nil];
+                UIViewController * vc = [storyboard instantiateViewControllerWithIdentifier:@"tabBarController"];
+                [self presentViewController:vc animated:YES completion:nil];
             } else {
                 [self.joinButtonOutlet setTitle:@"leave community" forState:UIControlStateNormal];
                 self.joinButtonOutlet.backgroundColor = [UIColor redColor];

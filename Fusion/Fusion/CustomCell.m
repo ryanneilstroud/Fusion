@@ -34,51 +34,11 @@
 }
 
 - (IBAction)commentButton:(UIButton *)sender {
-//    FriendsPostSelectionViewController *vc = [[FriendsPostSelectionViewController alloc] initWithNibName:@"FriendsPostSelection" bundle:nil];
-//    vc.incomingPostId = [self.objectId objectAtIndex:indexPath.row];
-//    vc.incomingName = [self.names objectAtIndex:indexPath.row];
-//    vc.incomingMessage = [self.messages objectAtIndex:indexPath.row];
-//    vc.incomingProfilePic = [self.images objectAtIndex:indexPath.row];
-//    vc.incomingSharedImages = [self.sharedImages objectForKey:[NSString stringWithFormat:@"%ld", (long)indexPath.row]];
-//    [self.navigationController pushViewController:vc animated:YES];
+
 }
 
 -(void)refreshCellWithInfo:(NSString *)_objectId {
-    NSLog(@"objectId = %@", _objectId);
-}
 
--(void)refreshCellWithInfo:(NSString*)titleText captionText:(NSString*)captionText imagePicture:(UIImage*)imagePicture :(NSDate*)_timestamp :(NSString*)_objectId :(NSString*)_favorited
-{
-    
-    if ([_favorited integerValue]) {
-        [favoriteButtonOutlet setImage:[UIImage imageNamed:@"star_ffc700_32.png"] forState:UIControlStateNormal];
-    } else {
-        [favoriteButtonOutlet setImage:[UIImage imageNamed:@"star-o_636363_32.png"] forState:UIControlStateNormal];
-    }
-    
-    objectId = _objectId;
-    
-    friendName.text = titleText;
-    friendMessage.text = captionText;
-    friendProfilePicture.image = imagePicture;
-    
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"hh:mm a, dd"];
-    
-    NSString *stringFromDate = [NSString stringWithFormat:@"%@ Sep",[formatter stringFromDate:_timestamp]];
-    
-    timestamp.text = stringFromDate;
-    
-    friendProfilePicture.layer.cornerRadius = 30;
-    friendProfilePicture.clipsToBounds = YES;
-    
-    friendName.font = [UIFont fontWithName:@"Roboto-Regular" size:18.0f];
-    friendMessage.font = [UIFont fontWithName:@"Roboto-Light" size:18.0f];
-    
-//    NSString *testString = @"Hello http://google.com world";
-//    NSDataDetector *detect = [[NSDataDetector alloc] initWithTypes:NSTextCheckingTypeLink error:nil];
-//    NSArray *matches = [detect matchesInString:testString options:0 range:NSMakeRange(0, [testString length])];
-//    NSLog(@"%@", matches);
 }
 
 -(void)refreshCellWithImageInfo:(NSString*)titleText captionText:(NSString*)captionText imagePicture:(UIImage*)imagePicture :(UIImage*)sharedPhoto :(NSDate*)_timestamp :(NSString*)_objectId  :(NSString*)_favorited
@@ -172,6 +132,111 @@
             [event[rsvp] addObject:[[PFUser currentUser] objectId]];
             [event saveInBackground];
 
+        }
+    }];
+}
+
+-(void)refreshCellWithFriendsWall:(NSString *)_objectId {
+    NSLog(@"test");
+    PFQuery *query = [PFQuery queryWithClassName:@"NewsFeedMessage"];
+    [query getObjectInBackgroundWithId:_objectId block:^(PFObject *object, NSError *error){
+        if (!error) {
+            
+            NSLog(@"objectId = %@", _objectId);
+            NSLog(@"name = %@", object);
+            
+            friendName.text = object[@"creator"][@"fullName"];
+            friendMessage.text = object[@"message"];
+            
+            NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+            [formatter setDateFormat:@"hh:mm a, dd"];
+            
+            timestamp.text = [formatter stringFromDate:[object createdAt]];
+            
+            friendName.font = [UIFont fontWithName:@"Roboto-Regular" size:18.0f];
+            friendMessage.font = [UIFont fontWithName:@"Roboto-Light" size:18.0f];
+            
+            PFFile *file = object[@"creator"][@"profilePic"];
+            [file getDataInBackgroundWithBlock:^(NSData *data, NSError *error){
+                if (!error) {
+                    UIImage *image = [UIImage imageWithData:data];
+                    
+                    objectId = _objectId;
+                    
+                    friendProfilePicture.image = image;
+                    friendProfilePicture.layer.cornerRadius = 30;
+                    friendProfilePicture.clipsToBounds = YES;
+                    
+                    if ([object[@"favorited"] containsObject:[[PFUser currentUser] objectId]]) {
+                        [favoriteButtonOutlet setImage:[UIImage imageNamed:@"star_ffc700_32.png"] forState:UIControlStateNormal];
+                    } else {
+                        [favoriteButtonOutlet setImage:[UIImage imageNamed:@"star-o_636363_32.png"] forState:UIControlStateNormal];
+                    }
+                    
+                }
+            }];
+        } else {
+            NSLog(@"error = %@", [error userInfo]);
+        }
+    }];}
+
+-(void)refreshCellWithMessage:(NSString *)_objectId {
+    NSLog(@"refresh");
+    
+    friendName.hidden = YES;
+    friendMessage.hidden = YES;
+    timestamp.hidden = YES;
+    friendProfilePicture.hidden = YES;
+    
+    friendName.text = @"";
+    friendMessage.text = @"";
+    timestamp.text = @"";
+    friendProfilePicture.image = nil;
+    
+    PFQuery *query = [PFQuery queryWithClassName:@"NewsFeedMessage"];
+    [query getObjectInBackgroundWithId:_objectId block:^(PFObject *object, NSError *error){
+        if (!error) {
+            
+            NSLog(@"objectId = %@", _objectId);
+            NSLog(@"name = %@", object);
+
+            friendName.text = object[@"creator"][@"fullName"];
+            friendMessage.text = object[@"message"];
+            
+            NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+            [formatter setDateFormat:@"hh:mm a, dd"];
+            
+            timestamp.text = [formatter stringFromDate:[object createdAt]];
+            
+            friendName.font = [UIFont fontWithName:@"Roboto-Regular" size:18.0f];
+            friendMessage.font = [UIFont fontWithName:@"Roboto-Light" size:18.0f];
+            
+            PFFile *file = object[@"creator"][@"profilePic"];
+            [file getDataInBackgroundWithBlock:^(NSData *data, NSError *error){
+                if (!error) {
+                    UIImage *image = [UIImage imageWithData:data];
+                    
+                    objectId = _objectId;
+                    
+                    friendProfilePicture.image = image;
+                    friendProfilePicture.layer.cornerRadius = 30;
+                    friendProfilePicture.clipsToBounds = YES;
+                    
+                    if ([object[@"favorited"] containsObject:[[PFUser currentUser] objectId]]) {
+                        [favoriteButtonOutlet setImage:[UIImage imageNamed:@"star_ffc700_32.png"] forState:UIControlStateNormal];
+                    } else {
+                        [favoriteButtonOutlet setImage:[UIImage imageNamed:@"star-o_636363_32.png"] forState:UIControlStateNormal];
+                    }
+                    
+                    friendName.hidden = NO;
+                    friendMessage.hidden = NO;
+                    timestamp.hidden = NO;
+                    friendProfilePicture.hidden = NO;
+
+                }
+            }];
+        } else {
+            NSLog(@"error = %@", [error userInfo]);
         }
     }];
 }

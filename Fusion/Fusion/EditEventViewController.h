@@ -19,5 +19,7 @@
 @property (strong, nonatomic) NSString *incomingLocation;
 @property (strong, nonatomic) NSString *incomingDateAndTime;
 @property (strong, nonatomic) NSString *incomingEventId;
+- (IBAction)deleteGroup:(id)sender;
 
+@property (strong, nonatomic) IBOutlet UIButton *deleteGroupButtonOutlet;
 @end

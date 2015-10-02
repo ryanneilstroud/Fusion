@@ -29,4 +29,6 @@
 
 @property(nonatomic,assign)id articleDelegate;
 
+@property (strong, nonatomic) NSString *editValue;
+
 @end

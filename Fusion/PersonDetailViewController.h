@@ -27,4 +27,6 @@
 
 - (IBAction)declineRequest:(UIButton *)sender;
 @property (strong, nonatomic) IBOutlet UIButton *declineButton;
+- (IBAction)seeFriendswall:(id)sender;
+@property (strong, nonatomic) IBOutlet UIButton *seeFriendsWallButton;
 @end

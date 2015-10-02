@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <Parse/Parse.h>
 
 @interface CommunityCell : UITableViewCell
 {
@@ -25,6 +26,8 @@
 
 - (void)refreshCellWithUserAttendance:(NSString *)fullNameOfUserFriend :(NSString *)detailsOfUserFriend :(UIImage *)profilePicOfUserFriend :(UIImage *)rsvpImage;
 
-- (void)refreshCellWithCommunityGroupInfo:(NSString *)nameOfCommunityGroup :(NSString *)detailsOfCommunityGroup :(UIImage *)profilePicOfCommunityGroup;
+//- (void)refreshCellWithCommunityGroupInfo:(NSString *)nameOfCommunityGroup :(NSString *)detailsOfCommunityGroup :(UIImage *)profilePicOfCommunityGroup;
+- (void)refreshCellWithCommunityGroupInfo:(NSString *)groupId;
+- (void)refreshCellWithUserInfo:(NSString *)personId;
 
 @end

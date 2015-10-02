@@ -78,46 +78,6 @@
     [self.view addGestureRecognizer:swipeDownGestureRecognizer];
     
     [self loadComments];
-    
-//    if (self.incomingName == NULL) {
-//        NSLog(@"is null");
-//        PFQuery *messageQuery = [PFQuery queryWithClassName:@"NewsFeedMessage"];
-//        [messageQuery getObjectInBackgroundWithId:self.incomingPostId block:^(PFObject *message, NSError *error){
-//            if (!error) {
-//                PFQuery *creatorQuery = [PFUser query];
-//                [creatorQuery getObjectInBackgroundWithId:[message[@"creator"] objectId] block:^(PFObject *postCreator, NSError *error){
-//                    if (!error) {
-//                        self.name.text = postCreator[@"fullName"];
-//                        self.message.text = message[@"message"];
-//                        
-//                        PFFile *file = postCreator[@"profilePic"];
-//                        [file getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
-//                            if (!error) {
-//                                UIImage *image = [UIImage imageWithData:data];
-//                                self.profilePic.image = image;
-//                            }
-//                        }];
-//                    } else {
-//                        NSLog(@"error: %@", error);
-//                    }
-//                }];
-//            } else {
-//                NSLog(@"error: %@", error);
-//            }
-//        }];
-//    } else {
-//        NSLog(@"is not null");
-//
-//        self.name.text = self.incomingName;
-//        self.message.text = self.incomingMessage;
-//        self.profilePic.image = self.incomingProfilePic;
-//    }
-//    
-//    self.name.font = [UIFont fontWithName:@"Roboto-Regular" size:18.0f];
-//    self.message.font = [UIFont fontWithName:@"Roboto-Light" size:18.0f];
-//    self.profilePic.layer.cornerRadius = 30;
-//    self.profilePic.clipsToBounds = YES;
-
 }
 
 - (void)handleSwipeDownFrom:(UIGestureRecognizer*)recognizer {

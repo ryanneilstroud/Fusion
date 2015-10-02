@@ -38,17 +38,57 @@
     
 }
 
+- (void)refreshCellWithCommunityGroupInfo:(NSString *)groupId {
+    NSLog(@"id = %@", groupId);
 
-- (void)refreshCellWithCommunityGroupInfo:(NSString *)nameOfCommunityGroup :(NSString *)detailsOfCommunityGroup :(UIImage *)profilePicOfCommunityGroup {
-    communityGroupName.text = nameOfCommunityGroup;
-    communityGroupDetails.text = detailsOfCommunityGroup;
-    communityGroupProfilePic.image = profilePicOfCommunityGroup;
+    PFQuery *query = [PFQuery queryWithClassName:@"CommunityGroup"];
+    [query getObjectInBackgroundWithId:groupId block:^(PFObject *object, NSError *error){
+        if (!error) {
+            
+            PFFile *file = object[@"profilePic"];
+            [file getDataInBackgroundWithBlock:^(NSData *data, NSError *error){
+                if (!error) {
+                    UIImage *image = [UIImage imageWithData:data];
+                    communityGroupName.text = object[@"name"];
+                    communityGroupDetails.text = object[@"church"];
+                    communityGroupProfilePic.image = image;
+                    
+                    communityGroupProfilePic.layer.cornerRadius = 30;
+                    communityGroupProfilePic.clipsToBounds = YES;
+                    
+                    communityGroupName.font = [UIFont fontWithName:@"Roboto-Light" size:18.0f];
+                    communityGroupDetails.font = [UIFont fontWithName:@"Roboto-Light" size:14.0f];
+                }
+            }];
+        }
+    }];
+}
+
+- (void)refreshCellWithUserInfo:(NSString *)personId {
+    NSLog(@"personId = %@", personId);
+
     
-    communityGroupProfilePic.layer.cornerRadius = 30;
-    communityGroupProfilePic.clipsToBounds = YES;
-    
-    communityGroupName.font = [UIFont fontWithName:@"Roboto-Light" size:18.0f];
-    communityGroupDetails.font = [UIFont fontWithName:@"Roboto-Light" size:14.0f];
+    PFQuery *query = [PFUser query];
+    [query getObjectInBackgroundWithId:personId block:^(PFObject *object, NSError *error){
+        if (!error) {
+            
+            PFFile *file = object[@"profilePic"];
+            [file getDataInBackgroundWithBlock:^(NSData *data, NSError *error){
+                if (!error) {
+                    UIImage *image = [UIImage imageWithData:data];
+                    userFriendFullName.text = object[@"fullName"];
+                    userFriendDetails.text = object[@"churchName"];
+                    userFriendProfilePic.image = image;
+                    
+                    userFriendProfilePic.layer.cornerRadius = 30;
+                    userFriendProfilePic.clipsToBounds = YES;
+                    
+                    userFriendFullName.font = [UIFont fontWithName:@"Roboto-Light" size:18.0f];
+                    userFriendDetails.font = [UIFont fontWithName:@"Roboto-Light" size:14.0f];
+                }
+            }];
+        }
+    }];
 }
 
 @end

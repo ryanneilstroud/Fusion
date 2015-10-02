@@ -44,10 +44,14 @@
 
 -(void)refreshCellWithInfo:(NSString *)_objectId;
 
--(void)refreshCellWithInfo:(NSString*)titleText captionText:(NSString*)captionText imagePicture:(UIImage*)imagePicture :(NSDate*)_timestamp :(NSString *)objectId :(NSString*)favorited;
+//-(void)refreshCellWithInfo:(NSString*)titleText captionText:(NSString*)captionText imagePicture:(UIImage*)imagePicture :(NSDate*)_timestamp :(NSString *)objectId :(NSString*)favorited;
 
 -(void)refreshCellWithImageInfo:(NSString*)titleText captionText:(NSString*)captionText imagePicture:(UIImage*)imagePicture :(UIImage*)sharedPhoto :(NSDate*)_timestamp :(NSString*)_objectId :(NSString*)favorited;
 
 -(void)refreshCellWithEventInfo:(NSString*)titleText :(NSString*)headlineOfEvent : (NSString*)dateAndTimeOfEvent :(NSString*)locationOfEvent :(UIImage*)imageOfEventCreator :(UIImage*)imageForEvent :(UIImage*)mapOfLocation :(NSString *)eventId :(NSString *)rsvp;
+
+-(void)refreshCellWithMessage:(NSString *)_objectId;
+
+-(void)refreshCellWithFriendsWall:(NSString *)_objectId;
 
 @end

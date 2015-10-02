@@ -137,13 +137,15 @@
     [self.communityNames removeAllObjects];
     [self.communityImages removeAllObjects];
     [self.communityChurches removeAllObjects];
+    [self.groupIds removeAllObjects];
+    [self.personIds removeAllObjects];
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if(segmentedControl.selectedSegmentIndex == 0) {
-        return [self.communityNames count];
+        return [self.groupIds count];
     } else {
-        return [self.names count];
+        return [self.personIds count];
     }
 }
 
@@ -192,23 +194,13 @@
                         PFQuery *userQuery = [PFUser query];
                         [userQuery getObjectInBackgroundWithId:object[@"friends"][i] block:^(PFObject *object, NSError *error){
                             if (!error) {
-                                NSLog(@"friend = %@", object);
                                 
-                                [self.names addObject:object[@"fullName"]];
-                                [self.churches addObject:object[@"churchName"]];
                                 [self.personIds addObject:[object objectId]];
                                 
-                                PFFile *file = object[@"profilePic"];
-                                [file getDataInBackgroundWithBlock:^(NSData *data, NSError *error){
-                                    if (!error) {
-                                        UIImage *image = [UIImage imageWithData:data];
-                                        [self.images addObject:image];
-                                        
-                                        if ([self.names count] > 0) {
-                                            [self.tableview reloadData];
-                                        }
-                                    }
-                                }];
+                                NSLog(@"hello?");
+//                                if ([self.personIds count] > 0) {
+                                    [self.tableview reloadData];
+//                                }
                             }
                         }];
                     }
@@ -227,6 +219,7 @@
     
     PFQuery *query = [PFQuery queryWithClassName:@"CommunityGroup"];
     [query whereKey:@"participants" equalTo:[[PFUser currentUser] objectId]];
+    [query orderByAscending:@"name"];
     [query findObjectsInBackgroundWithBlock:^(NSArray *array, NSError *error){
         if (!error) {
         
@@ -235,21 +228,12 @@
             } else {
                 [self handleEmptyTableView:NO];
                 for (int i = 0; i < array.count; i++) {
-                    [self.communityNames addObject:array[i][@"name"]];
-                    [self.communityChurches addObject:array[i][@"church"]];
+                    
                     [self.groupIds addObject:[array[i] objectId]];
                     
-                    PFFile *file = array[i][@"profilePic"];
-                    [file getDataInBackgroundWithBlock:^(NSData *data, NSError *error){
-                        if (!error) {
-                            UIImage *image = [UIImage imageWithData:data];
-                            [self.communityImages addObject:image];
-                            
-                            if ([self.communityNames count] > 0) {
-                                [self.tableview reloadData];
-                            }
-                        }
-                    }];
+                    if ([self.groupIds count] > 0) {
+                        [self.tableview reloadData];
+                    }
                 }
 
             }
@@ -257,83 +241,6 @@
         }
     }];
 }
-
-//- (void)loadCommunityData {
-//    PFUser *currentUser = [PFUser currentUser];
-//    
-//    PFQuery *communityRequest = [PFQuery queryWithClassName:@"CommunityRequest"];
-//    [communityRequest whereKey:@"status" equalTo:@"accepted"];
-//    [communityRequest findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-//        if (!error) {
-//            NSLog(@"objects = %@", objects);
-//                for (int i = 0; i<objects.count; i++) {
-//                    if ([objects[i][@"sender"] isEqualToString:currentUser.objectId]) {
-//                        
-//                        PFQuery *communityQuery = [PFQuery queryWithClassName:@"CommunityGroup"];
-//                        [communityQuery getObjectInBackgroundWithId:objects[i][@"receiver"] block:^(PFObject *user, NSError *error) {
-//                            if (!error) {
-//                                [self.communityNames addObject:user[@"name"]];
-//                                [self.communityChurches addObject:user[@"church"]];
-//                                [self.groupIds addObject:user.objectId];
-//                                
-//                                PFFile *file = user[@"profilePic"];
-//                                [file getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
-//                                    if (!error) {
-//                                        UIImage *image = [UIImage imageWithData:data];
-//                                        // image can now be set on a UIImageView
-//                                        [self.communityImages addObject:image];
-//                                        if ([self.communityNames count] > 0) {
-//                                            [self.tableview reloadData];
-//                                        }
-//                                    }
-//                                }];
-//                            } else {
-//                                NSLog(@"error: %@", error);
-//                            }
-//                        }];
-//                        
-//                    } else if ([objects[i][@"receiver"] isEqualToString:currentUser.objectId]) {
-//                        NSLog(@"I received that");
-//                        
-//                        PFQuery *communityQuery = [PFQuery queryWithClassName:@"CommunityGroup"];
-//                        [communityQuery getObjectInBackgroundWithId:objects[i][@"sender"] block:^(PFObject *user, NSError *error) {
-//                            if (!error) {
-//                                [self.communityNames addObject:user[@"name"]];
-//                                [self.communityChurches addObject:user[@"church"]];
-//                                [self.groupIds addObject:user.objectId];
-//                                
-//                                PFFile *file = user[@"profilePic"];
-//                                [file getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
-//                                    if (!error) {
-//                                        UIImage *image = [UIImage imageWithData:data];
-//                                        // image can now be set on a UIImageView
-//                                        [self.communityImages addObject:image];
-//                                        if ([self.communityNames count] > 0) {
-//                                            [self.tableview reloadData];
-//                                            [self.activityIndicator stopAnimating];
-//                                        }
-//                                    }
-//                                }];
-//                            } else {
-//                                NSLog(@"error: %@", error);
-//                            }
-//                        }];
-//                    } else {
-//                            NSLog(@"no groups");
-//                        self.tableview.hidden = YES;
-//                        self.infoLabel.hidden = NO;
-//                            self.infoLabel.text = @"you have no groups";
-//                            self.infoLabel.textAlignment = NSTextAlignmentCenter;
-//                            self.infoLabel.textColor = [UIColor grayColor];
-//                            [self.view addSubview:self.infoLabel];
-//                            [self.activityIndicator stopAnimating];
-//                    }
-//                }
-//        } else {
-//            NSLog(@"error: %@", error);
-//        }
-//    }];
-//}
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
@@ -369,17 +276,20 @@
     NSLog(@"forRowAtIndexPath called");
     
     if(segmentedControl.selectedSegmentIndex == 0) {
-        if (indexPath.row >= [self.communityImages count]) {
-        
+        if (indexPath.row >= [self.groupIds count]) {
+            NSLog(@"no refresh!");
         } else {
-            [cell refreshCellWithCommunityGroupInfo:[self.communityNames objectAtIndex:indexPath.row] :[self.communityChurches objectAtIndex:indexPath.row] :[self.communityImages objectAtIndex:indexPath.row]];
+            NSLog(@"cell refresh!");
+            [cell refreshCellWithCommunityGroupInfo:[self.groupIds objectAtIndex:indexPath.row]];
+//            [cell refreshCellWithCommunityGroupInfo:[self.communityNames objectAtIndex:indexPath.row] :[self.communityChurches objectAtIndex:indexPath.row] :[self.communityImages objectAtIndex:indexPath.row]];
         }
     } else if(segmentedControl.selectedSegmentIndex == 1) {
-        NSLog(@"indexPath.row = %@", [self.names objectAtIndex:indexPath.row]);
-        if (indexPath.row >= [self.images count]) {
-        
+        if (indexPath.row >= [self.personIds count]) {
+            NSLog(@"no refresh!");
         } else {
-            [cell refreshCellWithUserFriendInfo:[self.names objectAtIndex:indexPath.row] :[self.churches objectAtIndex:indexPath.row]:[self.images objectAtIndex:indexPath.row]];
+            NSLog(@"refresh!");
+//            [cell refreshCellWithUserFriendInfo:[self.names objectAtIndex:indexPath.row] :[self.churches objectAtIndex:indexPath.row]:[self.images objectAtIndex:indexPath.row]];
+            [cell refreshCellWithUserInfo:[self.personIds objectAtIndex:indexPath.row]];
         }
     }
 }

@@ -7,6 +7,7 @@
 //
 
 #import "PersonDetailViewController.h"
+//#import "FriendsWallViewController.h"
 
 @interface PersonDetailViewController ()
 @property (nonatomic) NSString *personId;
@@ -67,16 +68,16 @@
         
     CGRect screenRect = [[UIScreen mainScreen] bounds];
     
+    [self.seeFriendsWallButton setTranslatesAutoresizingMaskIntoConstraints:YES];
     [self.acceptButton setTranslatesAutoresizingMaskIntoConstraints:YES];
     [self.declineButton setTranslatesAutoresizingMaskIntoConstraints:YES];
     [self.addFriendButtonOutlet setTranslatesAutoresizingMaskIntoConstraints:YES];
     
+    self.seeFriendsWallButton.frame = CGRectMake(0, self.seeFriendsWallButton.frame.origin.y, screenRect.size.width, self.seeFriendsWallButton.frame.size.height);
     self.acceptButton.frame = CGRectMake(self.acceptButton.frame.origin.x, self.acceptButton.frame.origin.y, screenRect.size.width/2, self.acceptButton.frame.size.height);
     self.declineButton.frame = CGRectMake(screenRect.size.width/2, self.declineButton.frame.origin.y, screenRect.size.width/2, self.declineButton.frame.size.height);
     self.addFriendButtonOutlet.frame = CGRectMake(self.addFriendButtonOutlet.frame.origin.x, self.addFriendButtonOutlet.frame.origin.y, screenRect.size.width, self.addFriendButtonOutlet.frame.size.height);
     
-    NSLog(@"buttonHeight = %f", self.acceptButton.frame.size.height);
-
     [self getFriendshipStatus];
 
 //    self.acceptButton.layer.cornerRadius = 10;
@@ -266,5 +267,10 @@
         }
     }];
     
+}
+- (IBAction)seeFriendswall:(id)sender {
+//    FriendsWallViewController *controller = [[FriendsWallViewController alloc] initWithNibName:@"FriendsWallView" bundle:nil];
+//    controller.incomingFriendId = self.incomingPersonId;
+//    [self.navigationController pushViewController:controller animated:YES];
 }
 @end
